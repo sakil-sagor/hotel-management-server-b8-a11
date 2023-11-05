@@ -9,7 +9,9 @@ app.use(express.json());
 
 app.use(cors());
 
+const roomsrRoute = require("./routes/v1/rooms.route")
 
+app.use("/api/v1/rooms", roomsrRoute)
 
 
 
