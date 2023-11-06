@@ -15,6 +15,9 @@ router.route('/all/:roomId')
 router.route('/addrooms')
     .post(roomsController.createRooms)
 
+router.route('/order')
+    .post(roomsController.postNewOrder)
+
 
 
 

@@ -29,8 +29,12 @@ exports.findRoomByIdandMakeOrder = async (id, orders) => {
     return result;
 }
 exports.findRoomandCreateFeadback = async (id, feadback) => {
-    // console.log(feadback);
     const result = await Rooms.updateOne({ _id: id }, { $push: { review: feadback } });
+    return result;
+}
+exports.createNewRoomOrder = async (order) => {
+    console.log(order);
+    // const result = await Rooms.updateOne({ _id: id }, { $push: { review: feadback } });
     console.log(result);
     // return result;
 }
