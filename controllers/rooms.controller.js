@@ -1,8 +1,8 @@
-const { createRoom, getAllRooms, findRoomById, findRoomByIdandMakeOrder, fingRoomandCreateFeadback, findRoomandCreateFeadback, createNewRoomOrder } = require("../services/rooms.service");
+const { createRoom, getAllRooms, findRoomById, findRoomByIdandMakeOrder, fingRoomandCreateFeadback, findRoomandCreateFeadback, createNewRoomOrder, findAllBookingByEmail } = require("../services/rooms.service");
 
 exports.createRooms = async (req, res) => {
     try {
-        console.log(req.body);
+        // console.log(req.body);
         const createdRoom = await createRoom(req.body);
         res.status(200).json({
             status: "success",
@@ -20,7 +20,7 @@ exports.getSingleRooms = async (req, res) => {
     try {
 
         const { roomId } = req.params;
-        console.log(roomId);
+        // console.log(roomId);
         const result = await findRoomById(roomId)
         res.status(200).json({
             status: "success",
@@ -93,7 +93,7 @@ exports.getRooms = async (req, res) => {
         });
     }
 }
-// new order 
+new order
 exports.postNewOrder = async (req, res) => {
     try {
         console.log(req.body);
@@ -111,14 +111,15 @@ exports.postNewOrder = async (req, res) => {
         });
     }
 }
-exports.createFeadback = async (req, res) => {
+exports.getAllBooking = async (req, res) => {
     try {
-        const { roomId } = req.params;
-        // console.log(req.body);
-        const createdRoom = await findRoomandCreateFeadback(roomId, req.body);
+        const { email } = req.params;
+        // console.log(email);
+        const bookingAllData = await findAllBookingByEmail(email);
         res.status(200).json({
             status: "success",
             message: "Successfully Added rooms detials",
+            data: bookingAllData,
         })
     } catch (error) {
         res.status(500).json({

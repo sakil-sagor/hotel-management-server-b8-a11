@@ -6,7 +6,6 @@ exports.createRoom = async (detials) => {
 }
 
 exports.getAllRooms = async (filters, queries) => {
-    console.log(queries);
     const result = await Rooms
         .find(filters)
         .skip(queries.skip)
@@ -22,19 +21,33 @@ exports.findRoomById = async (detials) => {
     const singleroom = await Rooms.findOne({ _id: detials });
     return singleroom;
 }
-
+// make order 
 exports.findRoomByIdandMakeOrder = async (id, orders) => {
     const result = await Rooms.updateOne({ _id: id }, { $set: { bookingDate: orders } });
-    console.log(result);
     return result;
 }
+// create feadback 
 exports.findRoomandCreateFeadback = async (id, feadback) => {
     const result = await Rooms.updateOne({ _id: id }, { $push: { review: feadback } });
     return result;
 }
-exports.createNewRoomOrder = async (order) => {
-    console.log(order);
-    // const result = await Rooms.updateOne({ _id: id }, { $push: { review: feadback } });
-    console.log(result);
-    // return result;
+
+exports.findAllBookingByEmail = async (userEmail) => {
+    const result = await Rooms.find({ 'bookingDate.email': userEmail });
+    return result;
 }
+
+
+
+
+
+
+
+
+
+
+// exports.createNewRoomOrder = async (order) => {
+//     console.log(order);
+//     // const result = await Rooms.updateOne({ _id: id }, { $push: { review: feadback } });
+//     // return result;
+// }

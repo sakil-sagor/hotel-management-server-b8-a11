@@ -8,15 +8,15 @@ router.route('/all')
     .get(roomsController.getRooms)
 
 router.route('/all/:roomId')
-    .post(roomsController.createFeadback)
+    // .post(roomsController.createFeadback)
     .get(roomsController.getSingleRooms)
     .put(roomsController.putNewOrder)
 
 router.route('/addrooms')
     .post(roomsController.createRooms)
 
-router.route('/order')
-    .post(roomsController.postNewOrder)
+router.route('/booking/:email')
+    .get(roomsController.getAllBooking)
 
 
 
