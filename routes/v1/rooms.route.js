@@ -15,9 +15,12 @@ router.route('/all/:roomId')
 router.route('/addrooms')
     .post(roomsController.createRooms)
 
+
 router.route('/booking/:email')
     .get(roomsController.getAllBooking)
 
+router.route('/booking')
+    .patch(roomsController.deleteBooking)
 
 
 

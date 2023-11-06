@@ -1,4 +1,4 @@
-const { createRoom, getAllRooms, findRoomById, findRoomByIdandMakeOrder, fingRoomandCreateFeadback, findRoomandCreateFeadback, createNewRoomOrder, findAllBookingByEmail } = require("../services/rooms.service");
+const { createRoom, getAllRooms, findRoomById, findRoomByIdandMakeOrder, fingRoomandCreateFeadback, findRoomandCreateFeadback, createNewRoomOrder, findAllBookingByEmail, findSingleBookByIdAndEmail } = require("../services/rooms.service");
 
 exports.createRooms = async (req, res) => {
     try {
@@ -93,15 +93,33 @@ exports.getRooms = async (req, res) => {
         });
     }
 }
-new order
-exports.postNewOrder = async (req, res) => {
+// new order 
+// exports.postNewOrder = async (req, res) => {
+//     try {
+//         console.log(req.body);
+//         // console.log(req.body);
+//         const createdRoom = await createNewRoomOrder(req.body);
+//         res.status(200).json({
+//             status: "success",
+//             message: "Successfully Added rooms detials",
+//         })
+//     } catch (error) {
+//         res.status(500).json({
+//             status: "fail",
+//             message: "Couldn't create room",
+//             error: error.message,
+//         });
+//     }
+// }
+exports.getAllBooking = async (req, res) => {
     try {
-        console.log(req.body);
-        // console.log(req.body);
-        const createdRoom = await createNewRoomOrder(req.body);
+        const { email } = req.params;
+        // console.log(email);
+        const bookingAllData = await findAllBookingByEmail(email);
         res.status(200).json({
             status: "success",
             message: "Successfully Added rooms detials",
+            data: bookingAllData,
         })
     } catch (error) {
         res.status(500).json({
@@ -111,11 +129,14 @@ exports.postNewOrder = async (req, res) => {
         });
     }
 }
-exports.getAllBooking = async (req, res) => {
+
+
+// }
+exports.deleteBooking = async (req, res) => {
     try {
-        const { email } = req.params;
-        // console.log(email);
-        const bookingAllData = await findAllBookingByEmail(email);
+        const { email, id } = req.query;
+
+        const bookingAllData = await findSingleBookByIdAndEmail(id, email);
         res.status(200).json({
             status: "success",
             message: "Successfully Added rooms detials",

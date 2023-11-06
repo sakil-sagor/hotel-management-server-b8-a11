@@ -43,7 +43,7 @@ const RoomsSchema = mongoose.Schema({
         },
         date: {
             type: Date,
-            default: Date.now,
+            default: '',
         }
 
     },

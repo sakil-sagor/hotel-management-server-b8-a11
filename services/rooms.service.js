@@ -36,18 +36,14 @@ exports.findAllBookingByEmail = async (userEmail) => {
     const result = await Rooms.find({ 'bookingDate.email': userEmail });
     return result;
 }
+exports.findSingleBookByIdAndEmail = async (id, userEmail) => {
+    const bookingDate = {
+        date: '',
+        email: '',
+        status: false,
+    }
+    const result = await Rooms.updateOne({ _id: id }, { $set: { bookingDate: bookingDate } });
+    console.log(result);
+    return result;
+}
 
-
-
-
-
-
-
-
-
-
-// exports.createNewRoomOrder = async (order) => {
-//     console.log(order);
-//     // const result = await Rooms.updateOne({ _id: id }, { $push: { review: feadback } });
-//     // return result;
-// }
