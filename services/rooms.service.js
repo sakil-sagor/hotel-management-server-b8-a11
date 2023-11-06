@@ -24,8 +24,13 @@ exports.findRoomById = async (detials) => {
 }
 
 exports.findRoomByIdandMakeOrder = async (id, orders) => {
-    console.log(id, orders);
     const result = await Rooms.updateOne({ _id: id }, { $set: { bookingDate: orders } });
+    console.log(result);
+    return result;
+}
+exports.findRoomandCreateFeadback = async (id, feadback) => {
+    // console.log(feadback);
+    const result = await Rooms.updateOne({ _id: id }, { $push: { review: feadback } });
     console.log(result);
     // return result;
 }
