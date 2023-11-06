@@ -1,4 +1,4 @@
-const { createRoom, getAllRooms } = require("../services/rooms.service");
+const { createRoom, getAllRooms, findRoomById, findRoomByIdandMakeOrder } = require("../services/rooms.service");
 
 exports.createRooms = async (req, res) => {
     try {
@@ -13,6 +13,40 @@ exports.createRooms = async (req, res) => {
             status: "fail",
             message: "Couldn't create room",
             error: error.message,
+        });
+    }
+}
+exports.getSingleRooms = async (req, res) => {
+    try {
+
+        const { roomId } = req.params;
+        console.log(roomId);
+        const result = await findRoomById(roomId)
+        res.status(200).json({
+            status: "success",
+            data: result
+        })
+    } catch (error) {
+        res.status(400).json({
+            status: "fail",
+            error: "Couldn't get the donor",
+        });
+    }
+}
+exports.putNewOrder = async (req, res) => {
+    try {
+        // console.log(req.body);
+        const { roomId } = req.params;
+        // console.log(roomId);
+        const result = await findRoomByIdandMakeOrder(roomId, req.body)
+        res.status(200).json({
+            status: "success",
+            data: result
+        })
+    } catch (error) {
+        res.status(400).json({
+            status: "fail",
+            error: "Couldn't get the donor",
         });
     }
 }

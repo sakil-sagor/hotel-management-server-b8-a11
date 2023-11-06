@@ -17,3 +17,15 @@ exports.getAllRooms = async (filters, queries) => {
     return { result, totalRoom, pageCount };
 }
 
+
+exports.findRoomById = async (detials) => {
+    const singleroom = await Rooms.findOne({ _id: detials });
+    return singleroom;
+}
+
+exports.findRoomByIdandMakeOrder = async (id, orders) => {
+    console.log(id, orders);
+    const result = await Rooms.updateOne({ _id: id }, { $set: { bookingDate: orders } });
+    console.log(result);
+    // return result;
+}

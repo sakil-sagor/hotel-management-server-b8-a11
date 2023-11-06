@@ -33,6 +33,10 @@ const RoomsSchema = mongoose.Schema({
     },
 
     bookingDate: {
+        email: {
+            type: String,
+            default: '',
+        },
         status: {
             type: Boolean,
             default: false,
