@@ -32,6 +32,7 @@ exports.findRoomandCreateFeadback = async (id, feadback) => {
     return result;
 }
 
+
 exports.findAllBookingByEmail = async (userEmail) => {
     const rooms = await Rooms.find();
     const bookingRooms = []
@@ -50,23 +51,26 @@ exports.findAllBookingByEmail = async (userEmail) => {
     return bookingRooms;
 }
 
-
-
-
-
-
-
-
-
+exports.findidandUpdateBooking = async (email, updateData) => {
+    const dateObject = new Date(updateData?.date);
+    const newEmail = email.email;
+    const result = await Rooms.findOneAndUpdate(
+        {
+            _id: updateData?.productId,
+            'bookingDate.email': newEmail
+        },
+        { $set: { 'bookingDate.$.date': dateObject } },
+        { new: true },
+    )
+    return result;
+}
 
 exports.findSingleBookByIdAndEmail = async (productId, orderId) => {
-
     const result = await Rooms.findOneAndUpdate(
         { _id: productId },
         { $pull: { bookingDate: { _id: orderId } } },
         { new: true },
     );
-
     return result;
 }
 

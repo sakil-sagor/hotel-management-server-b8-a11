@@ -1,4 +1,4 @@
-const { createRoom, getAllRooms, findRoomById, findRoomByIdandMakeOrder, fingRoomandCreateFeadback, findRoomandCreateFeadback, createNewRoomOrder, findAllBookingByEmail, findSingleBookByIdAndEmail } = require("../services/rooms.service");
+const { createRoom, getAllRooms, findRoomById, findRoomByIdandMakeOrder, fingRoomandCreateFeadback, findRoomandCreateFeadback, createNewRoomOrder, findAllBookingByEmail, findSingleBookByIdAndEmail, findidandUpdateBooking } = require("../services/rooms.service");
 
 exports.createRooms = async (req, res) => {
     try {
@@ -23,13 +23,18 @@ exports.getSingleRooms = async (req, res) => {
         // console.log(roomId);
         const result = await findRoomById(roomId)
         let seatTotal = 0;
+        let bookedUser = []
         result?.bookingDate?.forEach((item) => {
+            console.log(item.email);
+            if (!bookedUser.includes(item?.email)) {
+                bookedUser.push(item.email)
+            }
             seatTotal += item.bookingSeat;
         });
-        console.log(seatTotal);
+
         res.status(200).json({
             status: "success",
-            data: result, seatTotal
+            data: result, seatTotal, bookedUser
         })
     } catch (error) {
         res.status(400).json({
@@ -107,7 +112,7 @@ exports.createFeadback = async (req, res) => {
         const result = await findRoomById(roomId)
         // console.log(result);
         const existingEmail = result.bookingDate.find(emailId => emailId.email === email)
-        console.log(existingEmail);
+        console.log(req.body);
         if (!existingEmail) {
             res.status(400)
             throw new Error("Only booked user can make a review")
@@ -125,28 +130,28 @@ exports.createFeadback = async (req, res) => {
         });
     }
 }
-// new order 
-// exports.postNewOrder = async (req, res) => {
-//     try {
-//         console.log(req.body);
-//         // console.log(req.body);
-//         const createdRoom = await createNewRoomOrder(req.body);
-//         res.status(200).json({
-//             status: "success",
-//             message: "Successfully Added rooms detials",
-//         })
-//     } catch (error) {
-//         res.status(500).json({
-//             status: "fail",
-//             message: "Couldn't create room",
-//             error: error.message,
-//         });
-//     }
-// }
+// update booking
+exports.updateBooking = async (req, res) => {
+    try {
+        const email = req.params
+        const createdRoom = await findidandUpdateBooking(email, req.body);
+        res.status(200).json({
+            status: "success",
+            message: "Successfully Added rooms detials",
+        })
+    } catch (error) {
+        res.status(500).json({
+            status: "fail",
+            message: "Couldn't create room",
+            error: error.message,
+        });
+    }
+}
 exports.getAllBooking = async (req, res) => {
     try {
         const { email } = req.params;
         const bookingAllData = await findAllBookingByEmail(email);
+
         res.status(200).json({
             status: "success",
             message: "Successfully Added rooms detials",
@@ -167,7 +172,6 @@ exports.deleteBooking = async (req, res) => {
     try {
         const { orderId, productId } = req.query;
         const bookingAllData = await findSingleBookByIdAndEmail(productId, orderId);
-        console.log(bookingAllData);
         res.status(200).json({
             status: "success",
             message: "Successfully Added rooms detials",

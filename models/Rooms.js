@@ -37,9 +37,29 @@ const RoomsSchema = mongoose.Schema({
 
 
 
-    review: {
-        type: Array,
-    },
+    review: [{
+        email: {
+            type: String,
+            default: '',
+        },
+        userName: {
+            type: String,
+            default: '',
+        },
+        feadback: {
+            type: String,
+            default: '',
+        },
+        rating: {
+            type: Number,
+            default: 0,
+        },
+        date: {
+            type: Date,
+            default: Date.now,
+        }
+    }
+    ],
     status: {
         type: Boolean,
         default: true,

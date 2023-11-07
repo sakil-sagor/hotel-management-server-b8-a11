@@ -18,6 +18,8 @@ router.route('/addrooms')
 
 router.route('/booking/:email')
     .get(roomsController.getAllBooking)
+    .patch(roomsController.updateBooking)
+
 
 router.route('/booking')
     .delete(roomsController.deleteBooking)
