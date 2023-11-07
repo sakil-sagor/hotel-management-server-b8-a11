@@ -23,7 +23,7 @@ exports.findRoomById = async (detials) => {
 }
 // make order 
 exports.findRoomByIdandMakeOrder = async (id, orders) => {
-    const result = await Rooms.updateOne({ _id: id }, { $set: { bookingDate: orders } });
+    const result = await Rooms.updateOne({ _id: id }, { $push: { bookingDate: orders } });
     return result;
 }
 // create feadback 
@@ -33,17 +33,40 @@ exports.findRoomandCreateFeadback = async (id, feadback) => {
 }
 
 exports.findAllBookingByEmail = async (userEmail) => {
-    const result = await Rooms.find({ 'bookingDate.email': userEmail });
-    return result;
+    const rooms = await Rooms.find();
+    const bookingRooms = []
+    rooms?.forEach((object) => {
+        const image = { image: object?.image };
+        const price = { price: object?.price }
+        const productId = { productId: object._id }
+        object.bookingDate.forEach((item) => {
+            if (item.email === userEmail) {
+                const newObject = { ...image, ...price, ...productId, item }
+                bookingRooms.push(newObject)
+            }
+        });
+    });
+
+    return bookingRooms;
 }
-exports.findSingleBookByIdAndEmail = async (id, userEmail) => {
-    const bookingDate = {
-        date: '',
-        email: '',
-        status: false,
-    }
-    const result = await Rooms.updateOne({ _id: id }, { $set: { bookingDate: bookingDate } });
-    console.log(result);
+
+
+
+
+
+
+
+
+
+
+exports.findSingleBookByIdAndEmail = async (productId, orderId) => {
+
+    const result = await Rooms.findOneAndUpdate(
+        { _id: productId },
+        { $pull: { bookingDate: { _id: orderId } } },
+        { new: true },
+    );
+
     return result;
 }
 

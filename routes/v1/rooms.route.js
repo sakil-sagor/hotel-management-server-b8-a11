@@ -20,7 +20,7 @@ router.route('/booking/:email')
     .get(roomsController.getAllBooking)
 
 router.route('/booking')
-    .patch(roomsController.deleteBooking)
+    .delete(roomsController.deleteBooking)
 
 
 

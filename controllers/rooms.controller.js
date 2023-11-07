@@ -22,9 +22,14 @@ exports.getSingleRooms = async (req, res) => {
         const { roomId } = req.params;
         // console.log(roomId);
         const result = await findRoomById(roomId)
+        let seatTotal = 0;
+        result?.bookingDate?.forEach((item) => {
+            seatTotal += item.bookingSeat;
+        });
+        console.log(seatTotal);
         res.status(200).json({
             status: "success",
-            data: result
+            data: result, seatTotal
         })
     } catch (error) {
         res.status(400).json({
@@ -97,7 +102,16 @@ exports.getRooms = async (req, res) => {
 exports.createFeadback = async (req, res) => {
     try {
         const { roomId } = req.params;
+        const { email } = req.body;
         // console.log(req.body);
+        const result = await findRoomById(roomId)
+        // console.log(result);
+        const existingEmail = result.bookingDate.find(emailId => emailId.email === email)
+        console.log(existingEmail);
+        if (!existingEmail) {
+            res.status(400)
+            throw new Error("Only booked user can make a review")
+        }
         const createdRoom = await findRoomandCreateFeadback(roomId, req.body);
         res.status(200).json({
             status: "success",
@@ -132,7 +146,6 @@ exports.createFeadback = async (req, res) => {
 exports.getAllBooking = async (req, res) => {
     try {
         const { email } = req.params;
-        // console.log(email);
         const bookingAllData = await findAllBookingByEmail(email);
         res.status(200).json({
             status: "success",
@@ -152,13 +165,12 @@ exports.getAllBooking = async (req, res) => {
 // }
 exports.deleteBooking = async (req, res) => {
     try {
-        const { email, id } = req.query;
-
-        const bookingAllData = await findSingleBookByIdAndEmail(id, email);
+        const { orderId, productId } = req.query;
+        const bookingAllData = await findSingleBookByIdAndEmail(productId, orderId);
+        console.log(bookingAllData);
         res.status(200).json({
             status: "success",
             message: "Successfully Added rooms detials",
-            data: bookingAllData,
         })
     } catch (error) {
         res.status(500).json({

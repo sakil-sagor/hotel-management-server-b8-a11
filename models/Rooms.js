@@ -14,6 +14,28 @@ const RoomsSchema = mongoose.Schema({
         required: true,
 
     },
+    description: {
+        type: String,
+        required: true,
+    },
+    discount: {
+        type: String,
+        required: true,
+    },
+    image: {
+        type: String,
+        validate: {
+            validator: (value) => validator.isURL(value, { protocols: ['http', 'https'], require_tld: true, require_protocol: true }),
+            message: 'Invalid image URL',
+        },
+    },
+    totalSeat: {
+        type: Number,
+        required: true,
+    },
+
+
+
 
     review: {
         type: Array,
@@ -22,20 +44,15 @@ const RoomsSchema = mongoose.Schema({
         type: Boolean,
         default: true,
     },
-    description: {
-        type: String,
-        required: true,
-    },
-
-    discount: {
-        type: String,
-        required: true,
-    },
-
-    bookingDate: {
+    bookingDate: [{
         email: {
             type: String,
             default: '',
+        },
+        bookingSeat: {
+            type: Number,
+            default: 0,
+
         },
         status: {
             type: Boolean,
@@ -45,15 +62,8 @@ const RoomsSchema = mongoose.Schema({
             type: Date,
             default: '',
         }
+    }],
 
-    },
-    image: {
-        type: String,
-        validate: {
-            validator: (value) => validator.isURL(value, { protocols: ['http', 'https'], require_tld: true, require_protocol: true }),
-            message: 'Invalid image URL',
-        },
-    },
 
 
 }, {
