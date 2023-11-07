@@ -93,6 +93,24 @@ exports.getRooms = async (req, res) => {
         });
     }
 }
+// make feadback 
+exports.createFeadback = async (req, res) => {
+    try {
+        const { roomId } = req.params;
+        // console.log(req.body);
+        const createdRoom = await findRoomandCreateFeadback(roomId, req.body);
+        res.status(200).json({
+            status: "success",
+            message: "Successfully Added rooms detials",
+        })
+    } catch (error) {
+        res.status(500).json({
+            status: "fail",
+            message: "Couldn't create room",
+            error: error.message,
+        });
+    }
+}
 // new order 
 // exports.postNewOrder = async (req, res) => {
 //     try {

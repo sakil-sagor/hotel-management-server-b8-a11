@@ -8,7 +8,7 @@ router.route('/all')
     .get(roomsController.getRooms)
 
 router.route('/all/:roomId')
-    // .post(roomsController.createFeadback)
+    .post(roomsController.createFeadback)
     .get(roomsController.getSingleRooms)
     .put(roomsController.putNewOrder)
 
