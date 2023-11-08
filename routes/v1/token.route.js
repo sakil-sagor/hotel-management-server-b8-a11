@@ -4,8 +4,8 @@ const router = express.Router();
 
 
 
-router.route('/all')
-    .get(tokenController.accessTokenGenerate)
+router.route('/generatetoken')
+    .post(tokenController.accessTokenGenerate)
 
 
 
