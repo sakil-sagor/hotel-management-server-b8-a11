@@ -1,5 +1,6 @@
 const express = require('express');
 const roomsController = require('../../controllers/rooms.controller');
+const verifyToken = require('../../middleware/verifyToken');
 const router = express.Router();
 
 
@@ -8,21 +9,21 @@ router.route('/all')
     .get(roomsController.getRooms)
 
 router.route('/all/:roomId')
-    .post(roomsController.createFeadback)
-    .get(roomsController.getSingleRooms)
-    .put(roomsController.putNewOrder)
+    .post(verifyToken, roomsController.createFeadback)
+    .get(verifyToken, roomsController.getSingleRooms)
+    .put(verifyToken, roomsController.putNewOrder)
 
 router.route('/addrooms')
     .post(roomsController.createRooms)
 
 
 router.route('/booking/:email')
-    .get(roomsController.getAllBooking)
-    .patch(roomsController.updateBooking)
+    .get(verifyToken, roomsController.getAllBooking)
+    .patch(verifyToken, roomsController.updateBooking)
 
 
 router.route('/booking')
-    .delete(roomsController.deleteBooking)
+    .delete(verifyToken, roomsController.deleteBooking)
 
 
 

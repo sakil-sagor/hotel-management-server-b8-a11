@@ -8,7 +8,7 @@ const cookieParser = require("cookie-parser");
 // middlewares
 
 app.use(cors({
-    origin: 'http://localhost:5173',
+    origin: ['http://localhost:5173', 'https://assignment11-sakil.netlify.app'],
     credentials: true,
 }));
 app.use(express.json());

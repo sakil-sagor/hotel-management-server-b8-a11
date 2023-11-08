@@ -112,7 +112,7 @@ exports.createFeadback = async (req, res) => {
         const result = await findRoomById(roomId)
         // console.log(result);
         const existingEmail = result.bookingDate.find(emailId => emailId.email === email)
-        console.log(req.body);
+        console.log(existingEmail);
         if (!existingEmail) {
             res.status(400)
             throw new Error("Only booked user can make a review")
@@ -134,6 +134,8 @@ exports.createFeadback = async (req, res) => {
 exports.updateBooking = async (req, res) => {
     try {
         const email = req.params
+        console.log(req.body);
+
         const createdRoom = await findidandUpdateBooking(email, req.body);
         res.status(200).json({
             status: "success",
@@ -149,6 +151,7 @@ exports.updateBooking = async (req, res) => {
 }
 exports.getAllBooking = async (req, res) => {
     try {
+
         const { email } = req.params;
         const bookingAllData = await findAllBookingByEmail(email);
 
